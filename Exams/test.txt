@@ -1,0 +1,156 @@
+Name: Jana Tahan
+PSID: 1870644
+
+============== P0 ==============
+
+a) T(n) = T(n/3) + 1
+O(log n)
+
+b) T(n) = T(n/3) + n
+O(n)
+
+c) T(n) = 3T(n/3) + n 
+O(n log n)
+
+d) T(n) = 3T(n/2) + n 
+O(n ^ log2(3))
+
+e) T(n) = 4T(n/2) + n^2
+O(n^2 log n)
+
+
+============== P1 ==============
+
+getMaxIndex(i, n, A){
+
+    //retrieves index with the max value coming after index i
+
+    for(j = i + 1; j < n; j++)
+        if(A[j] > A[i])
+            i = j;       
+    
+    return i;
+}
+
+getMax(i, n, A){
+    //retrieves the max(A[j] - A[i]) for this i
+    return A[getMaxIndex(i + 1, n, A)] - A[i];
+}
+
+//This is the main method that takes in the size n of array A and returns the max(A[j] - A[i])
+getMax(n, A){
+
+    //if n < 2 then this A is invalid
+    if(n < 2)
+        return 0; 
+    
+    //minInd is the current minimun I value as we want I to be low and J to be high
+    //curval is the current max(A[j] - A[i]) value we have computed thus far with j being the highest number after i (i starting at 0)
+    //imax keeps track of the max val we can get from the current i
+    minInd = 0, currval = std::max(getMax(minInd, n, A), 0), imax;
+
+    for(i = 1; i < n - 1; i++){
+
+        //If  A[i] is higher than the A[minInd] then there is no point in doing this computation
+        if(A[i] >= A[minInd])
+            continue;
+        
+        //do the computation if A[i] < A[minind]
+        imax = getMax(i, n, A);
+
+        //if this computation is higher than our previous minimun, then replace the min with our current
+        if(imax > currval)
+            currval = imax;
+            minInd = i;        
+    }
+
+    return currval;
+}
+
+============== P2 ==============
+
+The table is table A[n][n]
+The base case is when your current row r  == n - 1 and with your current column c, either c == n + 1 or A[r][c+1] <= 0
+
+With dynamic programming, start at A[0][0] (1, 1) with r being row and c being column.
+compute every possible iteration starting from (1, 1) and the value of the highest value path at each index [r][c]
+
+for example if we have table A:
+[-1, 7]
+[-2, 4]
+
+
+in the spirit of dynamic programming, we would also have table B,
+[ 10, 11 ]
+[ 2 , 4 ]
+
+with B[r][c] representing the highest value we can achieve if starting at [r][c]
+
+This table would be filled in during the recurrence runtime and would prevent from subproblem recalculation
+this is the optimal method that will always obtain the highest resulting value from table A
+
+recurrence is T(n) = T(n / sqrt(n)) + n^2
+with n being n^2 technically as n represents the size of the table (which is n X n)
+time complexity is O(n^2 log n)
+as we have to compute all possibe paths for each [r][c] index in table A once...
+and ACTUALLY only once as if we get to [r][c] again later during runtime, we already have the highest path from [r][c] stored
+
+============== P3 ==============
+
+# Python function to return permutations of a given list
+def permutations(set):
+
+# If set is empty then there are no permutations
+    if len(set) == 0:
+        return []
+
+# If there is only one element in set then, only
+# one permutation is possible
+    if len(set) == 1:
+        return [set]
+
+
+# Find the permutations for set if there are
+# more than 1 characters
+
+    l = [] # empty list that will store current permutation
+
+
+# Iterate the input(set) and calculate the permutation
+for i in range(len(set)):
+    m = set[i]
+
+
+# Extract set[i] or m from the list. remset is
+# remaining list
+    remset = set[:i] + set[i+1:]
+
+# Generating all permutations where m is first
+# element
+    for p in permutations(remset):
+        l.append([m] + p)
+            return l
+
+============== P4 ==============
+
+def balanced(w)
+
+    stack s = empty stack
+
+    for int i = 0; i < wsize, i++:
+
+        if ) or ]:
+            if stack empty or not have opening bracket match, return false
+
+            pop stack
+
+        else
+            stack push w[i]
+
+    
+    return true;
+
+uses DP!!!
+
+
+
